@@ -28,5 +28,28 @@ STDERR		equ 2
 	syscall 
 %endmacro
 
+; calcultes lenght of string including null and return value in rax
+%macro GETSTRLEN 1		; first arg is reference to string
+	mov	rax, %1
+	mov	rbx, 0		; counter set to 0	
+%%loop:
+	inc	rbx
+	inc	rax
+	mov	cl, [rax]	; copy 1 byte of rax adress to cl
+	cmp	cl, 0
+	jne	%%loop	
+	mov	rax, rbx
+	
+%endmacro
+
+%macro PRINT 2	; arg1: text to be printed, arg2: register with lenght of a text
+
+        mov     rax, SYS_WRITE
+        mov     rdi, STDOUT
+        mov     rsi, %1
+	mov	rdx, %2
+        syscall
+
+%endmacro
 
 
